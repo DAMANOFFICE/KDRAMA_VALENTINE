@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Episode 1: The Confession</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Gaegu:wght@300;700&family=Nunito:wght@400;800&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            background-color: #ffe6eb; /* Fallback pink */
+            font-family: 'Nunito', sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Cherry Blossom Container */
+        #blossom-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .petal {
+            position: absolute;
+            background-color: #ffc0cb;
+            border-radius: 150% 0 150% 0;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { opacity: 1; transform: translate(0, -10px) rotateZ(0deg); }
+            100% { opacity: 0; transform: translate(100px, 100vh) rotateZ(360deg); }
+        }
+
+        /* Main Card */
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            z-index: 10;
+            position: relative;
+            border: 3px solid #ffb7c5;
+        }
+
+        /* K-Drama Style Header */
+        .episode-tag {
+            background: #ff69b4;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-family: 'Gaegu', cursive;
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            color: #d63384;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        .korean-sub {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .photo-placeholder {
+            width: 150px;
+            height: 150px;
+            background-color: #ffeff4;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4rem;
+            border: 4px dashed #ffb7c5;
+            overflow: hidden;
+        }
+
+        .photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* Buttons */
+        .btn-group {
+            position: relative;
+            height: 60px;
+        }
+
+        button {
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: transform 0.2s;
+            font-family: 'Gaegu', cursive;
+        }
+
+        .btn-yes {
+            background-color: #ff69b4;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.1);
+            background-color: #ff1493;
+        }
+
+        .btn-no {
+            background-color: #e0e0e0;
+            color: #666;
+            position: absolute;
+            left: 50%; /* Start centered relative to group, adjusted by JS if needed */
+            transform: translateX(20px); 
+        }
+
+        /* Hidden Success Message */
+        #success-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 230, 235, 0.95);
+            z-index: 20;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        #success-screen h1 {
+            font-size: 3rem;
+            font-family: 'Gaegu', cursive;
+        }
+        
+        .finger-heart {
+            font-size: 5rem;
+            animation: beat 1s infinite;
+        }
+
+        @keyframes beat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="blossom-container"></div>
+
+    <div class="card" id="main-card">
+        <div class="episode-tag">EPISODE 1: THE CONFESSION</div>
+        
+        <div class="photo-placeholder">
+            <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Z6cW53b3Z6cW53b3Z6cW53b3Z6cW53b3Z6cW53b3Z6cW53b3Z6cW53/3o7TKoWXm3okO1kgHC/giphy.gif" alt="Cute Gif">
+        </div>
+
+        <h1>Will you be my Leading Lady?</h1>
+        <div class="korean-sub">(Subtitle: Will you be my Valentine?)</div>
+        
+        <p>
+            The script says we are destined to be together. 
+            There's no point in fighting the plot twist! 🫰
+        </p>
+
+        <div class="btn-group">
+            <button class="btn-yes" onclick="acceptLove()">Yes! Saranghae! <3</button>
+            <button class="btn-no" id="noBtn" onmouseover="moveButton()">No (Subtitle Error)</button>
+        </div>
+    </div>
+
+    <div id="success-screen">
+        <div class="finger-heart">🫰</div>
+        <h1>Saranghae!</h1>
+        <p>Our K-Drama starts now.</p>
+        <p>Get ready for a date on Feb 14th!</p>
+    </div>
+
+    <script>
+        // 1. Cherry Blossom Logic
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            
+            // Randomize size and position
+            const size = Math.random() * 10 + 5 + 'px';
+            petal.style.width = size;
+            petal.style.height = size;
+            petal.style.left = Math.random() * 100 + 'vw';
+            
+            // Randomize animation duration
+            const duration = Math.random() * 3 + 2 + 's';
+            petal.style.animationDuration = duration;
+            
+            document.getElementById('blossom-container').appendChild(petal);
+            
+            // Remove petal after animation to keep DOM clean
+            setTimeout(() => {
+                petal.remove();
+            }, 5000);
+        }
+
+        setInterval(createPetal, 300);
+
+        // 2. The Running Button Logic
+        const noBtn = document.getElementById('noBtn');
+        
+        function moveButton() {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth) - (window.innerWidth / 2);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight) - (window.innerHeight / 2);
+            
+            // Limit movement to stay vaguely on screen but away from cursor
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = Math.random() * 80 + 10 + "%";
+            noBtn.style.top = Math.random() * 80 + 10 + "%";
+        }
+
+        // 3. Success Logic
+        function acceptLove() {
+            document.getElementById('success-screen').style.display = 'flex';
+            
+            // Burst of extra petals
+            for(let i=0; i<50; i++) {
+                setTimeout(createPetal, i * 20);
+            }
+        }
+    </script>
+</body>
+</html>
